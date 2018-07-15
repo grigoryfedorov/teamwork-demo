@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.projectslist.ProjectsListActivity" />
+        <activity android:name=".ui.projecttasklist.ProjectTaskListActivity" />
     </application>
 
 </manifest>

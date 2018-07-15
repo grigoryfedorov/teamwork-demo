@@ -1,4 +1,4 @@
-package com.grigoryfedorov.teamwork.data.projects
+package com.grigoryfedorov.teamwork.data.projects.datasource.remote.model
 
 import com.google.gson.annotations.SerializedName
 

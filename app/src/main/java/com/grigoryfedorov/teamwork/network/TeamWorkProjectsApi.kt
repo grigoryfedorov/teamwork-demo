@@ -3,6 +3,7 @@ package com.grigoryfedorov.teamwork.network
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.grigoryfedorov.teamwork.data.projects.ProjectsApiService
+import com.grigoryfedorov.teamwork.data.tasks.TasksApiService
 import com.grigoryfedorov.teamwork.services.encoders.Base64Encoder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -32,8 +33,8 @@ class TeamWorkProjectsApi(hostProvider: HostProvider, apiKeyProvider: ApiKeyProv
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
-    fun getProjectsApiService(): ProjectsApiService {
+    fun getProjectsApiService(): ProjectsApiService = retrofit.create(ProjectsApiService::class.java)
 
-        return retrofit.create(ProjectsApiService::class.java)
-    }
+    fun getTasksApiService(): TasksApiService = retrofit.create(TasksApiService::class.java)
+
 }

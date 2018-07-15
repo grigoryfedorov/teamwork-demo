@@ -30,6 +30,7 @@ class ProjectsListPresenterImpl(
                         projects.addAll(newProjects)
 
                         view.hideProgress()
+                        view.hideError()
                         view.showProjects()
                     }
 
@@ -40,4 +41,9 @@ class ProjectsListPresenterImpl(
 
                 })
     }
+
+    override fun onProjectClick(position: Int) {
+        view.navigateToProjectTasks(projects[position].id)
+    }
+
 }

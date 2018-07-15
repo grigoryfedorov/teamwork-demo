@@ -1,5 +1,6 @@
 package com.grigoryfedorov.teamwork.ui.projectslist
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -8,16 +9,17 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.grigoryfedorov.teamwork.R
-import com.grigoryfedorov.teamwork.data.projects.ProjectsEntityMapper
-import com.grigoryfedorov.teamwork.data.projects.ProjectsJsonMapper
-import com.grigoryfedorov.teamwork.data.projects.ProjectsRemoteDataSource
 import com.grigoryfedorov.teamwork.data.projects.ProjectsRepositoryImpl
+import com.grigoryfedorov.teamwork.data.projects.datasource.remote.ProjectsRemoteDataSource
+import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsEntityMapper
+import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsJsonMapper
 import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.interactor.projects.ProjectsInteractorImpl
 import com.grigoryfedorov.teamwork.network.TeamWorkApiKeyProvider
 import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
 import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApiHostProvider
 import com.grigoryfedorov.teamwork.services.resources.ResourceManagerImpl
+import com.grigoryfedorov.teamwork.ui.projecttasklist.ProjectTaskListActivity
 
 class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
 
@@ -52,7 +54,12 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
 
         recyclerView = findViewById(R.id.projects_list_recycler_view)
 
-        projectsListAdapter = ProjectsListAdapter(projects)
+        projectsListAdapter = ProjectsListAdapter(projects, object : ProjectsListAdapter.Listener {
+            override fun onProjectClick(position: Int) {
+                presenter.onProjectClick(position)
+            }
+
+        })
         recyclerView.adapter = projectsListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -88,5 +95,10 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
         progressBar.visibility = View.GONE
     }
 
+    override fun navigateToProjectTasks(projectId: String) {
+        val intent = Intent(this, ProjectTaskListActivity::class.java)
+        intent.putExtra(ProjectTaskListActivity.EXTRA_PROJECT_ID, projectId)
+        startActivity(intent)
+    }
 
 }
