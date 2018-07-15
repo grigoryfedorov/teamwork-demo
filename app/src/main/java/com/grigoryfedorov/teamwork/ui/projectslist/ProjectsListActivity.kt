@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.data.projects.ProjectsRepositoryImpl
+import com.grigoryfedorov.teamwork.data.projects.datasource.local.ProjectsLocalDataSource
 import com.grigoryfedorov.teamwork.data.projects.datasource.remote.ProjectsRemoteDataSource
 import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsEntityMapper
 import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsJsonMapper
@@ -43,7 +44,8 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
         val projectsJsonMapper = ProjectsJsonMapper()
         val projectsEntityMapper = ProjectsEntityMapper()
         val projectsRemoteDataSource = ProjectsRemoteDataSource(teamWorkProjectsApi, projectsJsonMapper, projectsEntityMapper)
-        val projectsRepository = ProjectsRepositoryImpl(projectsRemoteDataSource)
+        val projectsLocalDataSource = ProjectsLocalDataSource()
+        val projectsRepository = ProjectsRepositoryImpl(projectsLocalDataSource, projectsRemoteDataSource)
         val projectsInteractor = ProjectsInteractorImpl(projectsRepository)
         presenter = ProjectsListPresenterImpl(this, projectsInteractor, projects, resourceManager)
 

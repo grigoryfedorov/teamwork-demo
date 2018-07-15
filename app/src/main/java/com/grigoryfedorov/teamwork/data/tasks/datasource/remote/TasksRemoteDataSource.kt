@@ -7,7 +7,7 @@ import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
 import io.reactivex.Observable
 
-class RemoteTasksDataSource(
+class TasksRemoteDataSource(
         var teamWorkProjectsApi: TeamWorkProjectsApi,
         var tasksJsonMapper: TasksJsonMapper,
         var tasksEntityMapper: TasksEntityMapper

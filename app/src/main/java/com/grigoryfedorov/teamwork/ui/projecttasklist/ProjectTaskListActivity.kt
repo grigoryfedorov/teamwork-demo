@@ -9,7 +9,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.data.tasks.TasksRepositoryImpl
-import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.RemoteTasksDataSource
+import com.grigoryfedorov.teamwork.data.tasks.datasource.local.TasksLocalDataSource
+import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.TasksRemoteDataSource
 import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper.TasksEntityMapper
 import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper.TasksJsonMapper
 import com.grigoryfedorov.teamwork.domain.Task
@@ -47,8 +48,9 @@ class ProjectTaskListActivity : AppCompatActivity(), ProjectTaskListPresenter.Vi
         val tasksJsonMapper = TasksJsonMapper()
         val tasksEntityMapper = TasksEntityMapper()
 
-        val remoteTasksDataSource = RemoteTasksDataSource(teamWorkProjectsApi, tasksJsonMapper, tasksEntityMapper)
-        val tasksRepository = TasksRepositoryImpl(remoteTasksDataSource)
+        val tasksLocalDataSource = TasksLocalDataSource()
+        val remoteTasksDataSource = TasksRemoteDataSource(teamWorkProjectsApi, tasksJsonMapper, tasksEntityMapper)
+        val tasksRepository = TasksRepositoryImpl(tasksLocalDataSource, remoteTasksDataSource)
         val tasksInteractor = TasksInteractorImpl(tasksRepository)
 
         presenter = ProjectTaskListPresenterImpl(this, tasksInteractor, projectId, tasks, resourceManager)
