@@ -1,6 +1,8 @@
 package com.grigoryfedorov.teamwork.ui.projectslist
 
-interface ProjectsListPresenter {
+import com.grigoryfedorov.teamwork.ui.Presenter
+
+interface ProjectsListPresenter : Presenter {
     interface View {
         fun showProjects()
         fun showError(message: String)
@@ -9,5 +11,4 @@ interface ProjectsListPresenter {
         fun hideProgress()
     }
 
-    fun onStart()
 }

@@ -4,10 +4,9 @@ import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.interactor.projects.ProjectsInteractor
 import com.grigoryfedorov.teamwork.services.resources.ResourceManager
-import io.reactivex.Observer
+import com.grigoryfedorov.teamwork.ui.BasePresenter
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class ProjectsListPresenterImpl(
@@ -17,20 +16,14 @@ class ProjectsListPresenterImpl(
         private val resourceManager: ResourceManager,
         private val subscribeScheduler: Scheduler = Schedulers.io(),
         private val observeScheduler: Scheduler = AndroidSchedulers.mainThread()
-) : ProjectsListPresenter {
+) : BasePresenter(), ProjectsListPresenter {
 
     override fun onStart() {
         view.showProgress()
         projectsInteractor.getProjects()
                 .subscribeOn(subscribeScheduler)
                 .observeOn(observeScheduler)
-                .subscribe(object : Observer<List<Project>> {
-                    override fun onComplete() {
-
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
+                .subscribe(object : BaseSubscriber<List<Project>>() {
 
                     override fun onNext(newProjects: List<Project>) {
                         projects.clear()
