@@ -19,5 +19,4 @@ licenses:
     - 'android-sdk-preview-license-.+'
 
 script:
-  # run
-  ./gradlew connectedCheck
+  ./gradlew build connectedCheck
