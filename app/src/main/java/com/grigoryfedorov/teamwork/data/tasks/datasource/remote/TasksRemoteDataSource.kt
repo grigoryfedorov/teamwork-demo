@@ -6,8 +6,9 @@ import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper.TasksJson
 import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class TasksRemoteDataSource(
+class TasksRemoteDataSource @Inject constructor(
         var teamWorkProjectsApi: TeamWorkProjectsApi,
         var tasksJsonMapper: TasksJsonMapper,
         var tasksEntityMapper: TasksEntityMapper

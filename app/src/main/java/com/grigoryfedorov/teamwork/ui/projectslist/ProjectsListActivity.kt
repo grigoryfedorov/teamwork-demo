@@ -9,22 +9,17 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.grigoryfedorov.teamwork.R
-import com.grigoryfedorov.teamwork.data.projects.ProjectsRepositoryImpl
-import com.grigoryfedorov.teamwork.data.projects.datasource.local.ProjectsLocalDataSource
-import com.grigoryfedorov.teamwork.data.projects.datasource.remote.ProjectsRemoteDataSource
-import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsEntityMapper
-import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.ProjectsJsonMapper
+import com.grigoryfedorov.teamwork.di.ui.projectlist.ProjectsListActivityModule
 import com.grigoryfedorov.teamwork.domain.Project
-import com.grigoryfedorov.teamwork.interactor.projects.ProjectsInteractorImpl
-import com.grigoryfedorov.teamwork.network.TeamWorkApiKeyProvider
-import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
-import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApiHostProvider
-import com.grigoryfedorov.teamwork.services.resources.ResourceManagerImpl
 import com.grigoryfedorov.teamwork.ui.projecttasklist.ProjectTaskListActivity
+import toothpick.Scope
+import toothpick.Toothpick
+import javax.inject.Inject
 
 class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
 
-    private lateinit var presenter: ProjectsListPresenter
+    @Inject
+    lateinit var presenter: ProjectsListPresenter
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -32,22 +27,17 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
 
     private lateinit var projectsListAdapter: ProjectsListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    lateinit var scope: Scope
 
+    override fun onCreate(savedInstanceState: Bundle?) {
         val projects: MutableList<Project> = ArrayList()
 
-        val resourceManager = ResourceManagerImpl(this)
-        val teamWorkProjectsApiHostProvider = TeamWorkProjectsApiHostProvider(resourceManager)
-        val teamWorkApiKeyProvider = TeamWorkApiKeyProvider(resourceManager)
-        val teamWorkProjectsApi = TeamWorkProjectsApi(teamWorkProjectsApiHostProvider, teamWorkApiKeyProvider)
-        val projectsJsonMapper = ProjectsJsonMapper()
-        val projectsEntityMapper = ProjectsEntityMapper()
-        val projectsRemoteDataSource = ProjectsRemoteDataSource(teamWorkProjectsApi, projectsJsonMapper, projectsEntityMapper)
-        val projectsLocalDataSource = ProjectsLocalDataSource()
-        val projectsRepository = ProjectsRepositoryImpl(projectsLocalDataSource, projectsRemoteDataSource)
-        val projectsInteractor = ProjectsInteractorImpl(projectsRepository)
-        presenter = ProjectsListPresenterImpl(this, projectsInteractor, projects, resourceManager)
+        scope = Toothpick.openScopes(application, this)
+        scope.installModules(ProjectsListActivityModule(this, projects))
+
+        super.onCreate(savedInstanceState)
+
+        Toothpick.inject(this, scope)
 
         setContentView(R.layout.activity_projects_list)
 
@@ -74,6 +64,11 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
     override fun onStop() {
         super.onStop()
         presenter.onStop()
+    }
+
+    override fun onDestroy() {
+        Toothpick.closeScope(this)
+        super.onDestroy()
     }
 
     override fun showProjects() {

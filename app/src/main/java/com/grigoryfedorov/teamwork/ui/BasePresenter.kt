@@ -6,6 +6,11 @@ import io.reactivex.disposables.Disposable
 
 abstract class BasePresenter : Presenter {
 
+    companion object {
+        const val SUBSCRIBE_ON_SCHEDULER = "subscribeOnScheduler"
+        const val OBSERVE_ON_SCHEDULER = "observeOnScheduler"
+    }
+
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onStart() {

@@ -5,8 +5,11 @@ import com.google.gson.JsonObject
 import com.grigoryfedorov.teamwork.data.Mapper
 import com.grigoryfedorov.teamwork.data.projects.datasource.remote.model.ApiProject
 import com.grigoryfedorov.teamwork.data.projects.datasource.remote.model.ApiProjects
+import javax.inject.Inject
 
-class ProjectsJsonMapper : Mapper<JsonObject, List<ApiProject>> {
+
+class ProjectsJsonMapper @Inject constructor() : Mapper<JsonObject, List<ApiProject>> {
+
     private val gson: Gson = Gson()
 
     override fun map(srcModel: JsonObject): List<ApiProject> {

@@ -10,8 +10,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class TeamWorkProjectsApi(hostProvider: HostProvider, apiKeyProvider: ApiKeyProvider) {
+class TeamWorkProjectsApi @Inject constructor(hostProvider: HostProvider, apiKeyProvider: ApiKeyProvider) {
 
     private val gson: Gson = GsonBuilder().create()
 

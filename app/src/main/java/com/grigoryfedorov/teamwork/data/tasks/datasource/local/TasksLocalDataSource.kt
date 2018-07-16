@@ -4,8 +4,9 @@ import com.grigoryfedorov.teamwork.data.tasks.TasksDataSource
 import com.grigoryfedorov.teamwork.domain.Task
 import io.reactivex.Observable
 import java.util.concurrent.ConcurrentHashMap
+import javax.inject.Inject
 
-class TasksLocalDataSource : TasksDataSource {
+class TasksLocalDataSource @Inject constructor() : TasksDataSource {
 
     private val tasksByProject: MutableMap<String, List<Task>> = ConcurrentHashMap()
 

@@ -8,17 +8,11 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.grigoryfedorov.teamwork.R
-import com.grigoryfedorov.teamwork.data.tasks.TasksRepositoryImpl
-import com.grigoryfedorov.teamwork.data.tasks.datasource.local.TasksLocalDataSource
-import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.TasksRemoteDataSource
-import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper.TasksEntityMapper
-import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper.TasksJsonMapper
+import com.grigoryfedorov.teamwork.di.ui.projecttasklist.ProjectTaskListActivityModule
 import com.grigoryfedorov.teamwork.domain.Task
-import com.grigoryfedorov.teamwork.interactor.tasks.TasksInteractorImpl
-import com.grigoryfedorov.teamwork.network.TeamWorkApiKeyProvider
-import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
-import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApiHostProvider
-import com.grigoryfedorov.teamwork.services.resources.ResourceManagerImpl
+import toothpick.Scope
+import toothpick.Toothpick
+import javax.inject.Inject
 
 class ProjectTaskListActivity : AppCompatActivity(), ProjectTaskListPresenter.View {
 
@@ -26,7 +20,8 @@ class ProjectTaskListActivity : AppCompatActivity(), ProjectTaskListPresenter.Vi
         const val EXTRA_PROJECT_ID = "extra_project_id"
     }
 
-    private lateinit var presenter: ProjectTaskListPresenter
+    @Inject
+    lateinit var presenter: ProjectTaskListPresenter
 
     private lateinit var projectsListAdapter: ProjectTaskListAdapter
 
@@ -34,26 +29,17 @@ class ProjectTaskListActivity : AppCompatActivity(), ProjectTaskListPresenter.Vi
     private lateinit var progressBar: ProgressBar
     private lateinit var errorTextView: TextView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    lateinit var scope: Scope
 
+    override fun onCreate(savedInstanceState: Bundle?) {
         val projectId = intent.getStringExtra(EXTRA_PROJECT_ID)
 
         val tasks: MutableList<Task> = ArrayList()
 
-        val resourceManager = ResourceManagerImpl(this)
-        val teamWorkProjectsApiHostProvider = TeamWorkProjectsApiHostProvider(resourceManager)
-        val teamWorkApiKeyProvider = TeamWorkApiKeyProvider(resourceManager)
-        val teamWorkProjectsApi = TeamWorkProjectsApi(teamWorkProjectsApiHostProvider, teamWorkApiKeyProvider)
-        val tasksJsonMapper = TasksJsonMapper()
-        val tasksEntityMapper = TasksEntityMapper()
-
-        val tasksLocalDataSource = TasksLocalDataSource()
-        val remoteTasksDataSource = TasksRemoteDataSource(teamWorkProjectsApi, tasksJsonMapper, tasksEntityMapper)
-        val tasksRepository = TasksRepositoryImpl(tasksLocalDataSource, remoteTasksDataSource)
-        val tasksInteractor = TasksInteractorImpl(tasksRepository)
-
-        presenter = ProjectTaskListPresenterImpl(this, tasksInteractor, projectId, tasks, resourceManager)
+        scope = Toothpick.openScopes(application, this)
+        scope.installModules(ProjectTaskListActivityModule(this, projectId, tasks))
+        super.onCreate(savedInstanceState)
+        Toothpick.inject(this, scope)
 
         setContentView(R.layout.activity_project_task_list)
 
@@ -98,5 +84,9 @@ class ProjectTaskListActivity : AppCompatActivity(), ProjectTaskListPresenter.Vi
         projectsListAdapter.notifyDataSetChanged()
     }
 
+    override fun onDestroy() {
+        Toothpick.closeScope(this)
+        super.onDestroy()
+    }
 
 }

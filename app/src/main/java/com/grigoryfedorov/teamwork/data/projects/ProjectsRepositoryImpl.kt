@@ -4,8 +4,11 @@ import com.grigoryfedorov.teamwork.data.projects.datasource.local.ProjectsLocalD
 import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.repository.ProjectsRepository
 import io.reactivex.Observable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProjectsRepositoryImpl(
+@Singleton
+class ProjectsRepositoryImpl @Inject constructor(
         private val localDataSource: ProjectsLocalDataSource,
         private val remoteDataSource: ProjectsDataSource
 ) : ProjectsRepository {

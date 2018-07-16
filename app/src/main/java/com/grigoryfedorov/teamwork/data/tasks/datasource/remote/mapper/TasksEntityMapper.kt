@@ -3,8 +3,9 @@ package com.grigoryfedorov.teamwork.data.tasks.datasource.remote.mapper
 import com.grigoryfedorov.teamwork.data.Mapper
 import com.grigoryfedorov.teamwork.data.tasks.datasource.remote.model.ApiTask
 import com.grigoryfedorov.teamwork.domain.Task
+import javax.inject.Inject
 
-class TasksEntityMapper : Mapper<List<ApiTask>, List<Task>> {
+class TasksEntityMapper @Inject constructor() : Mapper<List<ApiTask>, List<Task>> {
     override fun map(srcModel: List<ApiTask>): List<Task> {
         val tasks = ArrayList<Task>(srcModel.size)
 

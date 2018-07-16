@@ -6,16 +6,18 @@ import com.grigoryfedorov.teamwork.interactor.projects.ProjectsInteractor
 import com.grigoryfedorov.teamwork.services.resources.ResourceManager
 import com.grigoryfedorov.teamwork.ui.BasePresenter
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Named
 
-class ProjectsListPresenterImpl(
+class ProjectsListPresenterImpl @Inject constructor(
         private val view: ProjectsListPresenter.View,
         private val projectsInteractor: ProjectsInteractor,
         private val projects: MutableList<Project>,
         private val resourceManager: ResourceManager,
-        private val subscribeScheduler: Scheduler = Schedulers.io(),
-        private val observeScheduler: Scheduler = AndroidSchedulers.mainThread()
+        @Named(SUBSCRIBE_ON_SCHEDULER)
+        private val subscribeScheduler: Scheduler,
+        @Named(OBSERVE_ON_SCHEDULER)
+        private val observeScheduler: Scheduler
 ) : BasePresenter(), ProjectsListPresenter {
 
     override fun onStart() {

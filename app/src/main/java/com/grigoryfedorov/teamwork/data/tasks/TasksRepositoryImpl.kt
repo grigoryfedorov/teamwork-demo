@@ -4,8 +4,11 @@ import com.grigoryfedorov.teamwork.data.tasks.datasource.local.TasksLocalDataSou
 import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.repository.TasksRepository
 import io.reactivex.Observable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TasksRepositoryImpl(
+@Singleton
+class TasksRepositoryImpl @Inject constructor(
         private val localTasksDataSource: TasksLocalDataSource,
         private val remoteTasksDataSource: TasksDataSource
 ) : TasksRepository {

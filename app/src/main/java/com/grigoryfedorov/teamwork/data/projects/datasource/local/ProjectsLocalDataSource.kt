@@ -3,8 +3,9 @@ package com.grigoryfedorov.teamwork.data.projects.datasource.local
 import com.grigoryfedorov.teamwork.data.projects.ProjectsDataSource
 import com.grigoryfedorov.teamwork.domain.Project
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ProjectsLocalDataSource : ProjectsDataSource {
+class ProjectsLocalDataSource @Inject constructor() : ProjectsDataSource {
 
     private val projects: MutableList<Project> = ArrayList()
     private val lock = Any()

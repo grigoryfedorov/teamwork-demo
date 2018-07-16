@@ -6,8 +6,9 @@ import com.grigoryfedorov.teamwork.data.projects.datasource.remote.mapper.Projec
 import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.network.TeamWorkProjectsApi
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ProjectsRemoteDataSource(
+class ProjectsRemoteDataSource @Inject constructor(
         var teamWorkProjectsApi: TeamWorkProjectsApi,
         var projectsJsonMapper: ProjectsJsonMapper,
         var projectsEntityEntityMapper: ProjectsEntityMapper
