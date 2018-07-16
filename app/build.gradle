@@ -27,6 +27,12 @@ android {
         it.resValue 'string', "team_work_projects_api_host", teamWorkProjectsApiHost
         it.resValue 'string', "team_work_projects_api_key", teamWorkProjectsApiKey
     }
+
+    lintOptions {
+        // toothpick-runtime-1.1.3.jar: Error: Invalid package reference in library;
+        // not included in Android: javax.inject. Referenced from toothpick.ScopeNode
+        warning 'InvalidPackage'
+    }
 }
 
 kapt {
