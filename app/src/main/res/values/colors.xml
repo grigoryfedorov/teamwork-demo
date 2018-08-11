@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">@color/teamworkBlue</color>
+    <color name="colorPrimaryDark">@color/darkBlue</color>
+    <color name="colorAccent">@color/teamworkRed</color>
+
+    <color name="teamworkBlue">#3b93f7</color>
+    <color name="teamworkRed">#ff3454</color>
+    <color name="teamworkGreen">#65d656</color>
+    <color name="teamworkGrey">#3b4b69</color>
+
+    <color name="darkBlue">#0066c4</color>
 </resources>
