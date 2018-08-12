@@ -7,11 +7,9 @@ import toothpick.config.Module
 
 class ProjectTaskListActivityModule(
         view: ProjectTaskListPresenter.View,
-        projectId: String,
         tasks: MutableList<Task>) : Module() {
     init {
         bind(ProjectTaskListPresenter.View::class.java).toInstance(view)
-        bind(String::class.java).toInstance(projectId)
         bind(MutableList::class.java).toInstance(tasks)
         bind(ProjectTaskListPresenter::class.java).to(ProjectTaskListPresenterImpl::class.java)
     }

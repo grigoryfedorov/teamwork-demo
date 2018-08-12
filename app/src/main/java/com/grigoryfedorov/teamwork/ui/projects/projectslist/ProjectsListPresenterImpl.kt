@@ -26,6 +26,7 @@ class ProjectsListPresenterImpl @Inject constructor(
 ) : BasePresenter(), ProjectsListPresenter {
 
     override fun onStart() {
+        view.showTitle(resourceManager.getString(R.string.projects_list_title))
         view.showProgress()
         projectsInteractor.getProjects()
                 .subscribeOn(subscribeScheduler)
@@ -50,7 +51,7 @@ class ProjectsListPresenterImpl @Inject constructor(
     }
 
     override fun onProjectClick(position: Int) {
-        projectIdHolder.selectedProjectId = projects[position].id
+        projectIdHolder.selectedProject = projects[position]
         router.navigateTo(Screen.PROJECT_TASK_LIST)
     }
 

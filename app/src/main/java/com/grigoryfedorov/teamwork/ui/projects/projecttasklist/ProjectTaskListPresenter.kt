@@ -9,6 +9,7 @@ interface ProjectTaskListPresenter : Presenter {
         fun hideError()
         fun showProgress()
         fun hideProgress()
+        fun showTitle(title: String)
 
     }
 

@@ -19,16 +19,12 @@ import toothpick.Toothpick
 import javax.inject.Inject
 
 class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
-
-    companion object {
-        const val EXTRA_PROJECT_ID = "extra_project_id"
-    }
-
     @Inject
     lateinit var presenter: ProjectTaskListPresenter
 
     private lateinit var projectsListAdapter: ProjectTaskListAdapter
 
+    private lateinit var title: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var errorTextView: TextView
@@ -38,14 +34,10 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
     lateinit var scope: Scope
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        val projectId = intent.getStringExtra(EXTRA_PROJECT_ID)
-        val projectId = "0"
-
         scope = Toothpick.openScopes(AppScope::class.java, ProjectsScope::class.java, ProjectTaskListFragment::class.java)
-        scope.installModules(ProjectTaskListActivityModule(this, projectId, tasks))
+        scope.installModules(ProjectTaskListActivityModule(this, tasks))
         super.onCreate(savedInstanceState)
         Toothpick.inject(this, scope)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,7 +52,13 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
         recyclerView.adapter = projectsListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        title = rootView.findViewById(R.id.toolbar_title)
+
         return rootView
+    }
+
+    override fun showTitle(title: String) {
+        this.title.text = title
     }
 
     override fun onStart() {

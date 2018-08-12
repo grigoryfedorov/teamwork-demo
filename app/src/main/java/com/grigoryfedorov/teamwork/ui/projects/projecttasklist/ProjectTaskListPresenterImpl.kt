@@ -23,9 +23,12 @@ class ProjectTaskListPresenterImpl @Inject constructor(
 ) : ProjectTaskListPresenter, BasePresenter() {
 
     override fun onStart() {
+        val selectedProject = projectIdHolder.selectedProject
+
+        view.showTitle(selectedProject.name)
         view.showProgress()
 
-        tasksInteractor.getTasksForProject(projectIdHolder.selectedProjectId)
+        tasksInteractor.getTasksForProject(selectedProject.id)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
                 .subscribe(object : BaseSubscriber<List<Task>>() {

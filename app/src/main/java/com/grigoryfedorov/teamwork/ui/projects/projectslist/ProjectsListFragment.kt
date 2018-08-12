@@ -19,14 +19,14 @@ import toothpick.Toothpick
 import javax.inject.Inject
 
 class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
-
     @Inject
     lateinit var presenter: ProjectsListPresenter
 
     private lateinit var recyclerView: RecyclerView
+
+    private lateinit var title: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var errorTextView: TextView
-
     private lateinit var projectsListAdapter: ProjectsListAdapter
 
     lateinit var scope: Scope
@@ -59,8 +59,13 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
         recyclerView.adapter = projectsListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        title = rootView.findViewById(R.id.toolbar_title)
 
         return rootView
+    }
+
+    override fun showTitle(title: String) {
+        this.title.text = title
     }
 
     override fun onStart() {

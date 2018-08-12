@@ -9,6 +9,7 @@ interface ProjectsListPresenter : Presenter {
         fun hideError()
         fun showProgress()
         fun hideProgress()
+        fun showTitle(title: String)
     }
 
     fun onProjectClick(position: Int)
