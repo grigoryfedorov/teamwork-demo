@@ -21,12 +21,6 @@ class TeamWorkProjectsApi @Inject constructor(hostProvider: HostProvider, apiKey
             .addInterceptor(getLoggingInterceptor())
             .build()
 
-    private fun getLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return httpLoggingInterceptor
-    }
-
     private val retrofit = Retrofit.Builder()
             .baseUrl(hostProvider.getHost())
             .client(client)
@@ -34,8 +28,20 @@ class TeamWorkProjectsApi @Inject constructor(hostProvider: HostProvider, apiKey
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
-    fun getProjectsApiService(): ProjectsApiService = retrofit.create(ProjectsApiService::class.java)
+    private val projectsApiService: ProjectsApiService = retrofit.create(ProjectsApiService::class.java)
 
-    fun getTasksApiService(): TasksApiService = retrofit.create(TasksApiService::class.java)
+    private val tasksApiService: TasksApiService = retrofit.create(TasksApiService::class.java)
+
+
+    private fun getLoggingInterceptor(): HttpLoggingInterceptor {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return httpLoggingInterceptor
+    }
+
+
+    fun getProjectsApiService(): ProjectsApiService = projectsApiService
+
+    fun getTasksApiService(): TasksApiService = tasksApiService
 
 }
