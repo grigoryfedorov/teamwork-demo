@@ -14,7 +14,7 @@ class ProjectsRepositoryImpl @Inject constructor(
 ) : ProjectsRepository {
 
     override fun getProjects(): Observable<List<Project>> {
-        val local = remoteDataSource.getProjects().filter { projects -> !projects.isEmpty() }
+        val local = localDataSource.getProjects().filter { projects -> !projects.isEmpty() }
         val remote = remoteDataSource.getProjects().doOnNext { projects -> localDataSource.putProjects(projects) }
 
         return Observable.concat(local, remote)
