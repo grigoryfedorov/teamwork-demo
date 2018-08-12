@@ -1,4 +1,4 @@
-package com.grigoryfedorov.teamwork.ui.projectslist
+package com.grigoryfedorov.teamwork.ui.projects.projectslist
 
 import android.content.Context
 import android.graphics.drawable.Drawable

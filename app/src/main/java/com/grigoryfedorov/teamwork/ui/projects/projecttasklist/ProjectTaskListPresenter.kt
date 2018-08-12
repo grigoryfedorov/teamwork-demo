@@ -1,4 +1,4 @@
-package com.grigoryfedorov.teamwork.ui.projecttasklist
+package com.grigoryfedorov.teamwork.ui.projects.projecttasklist
 
 import com.grigoryfedorov.teamwork.ui.Presenter
 

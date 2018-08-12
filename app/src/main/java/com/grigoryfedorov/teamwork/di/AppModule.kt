@@ -1,4 +1,4 @@
-package com.grigoryfedorov.teamwork.di.network
+package com.grigoryfedorov.teamwork.di
 
 import android.app.Application
 import com.grigoryfedorov.teamwork.data.projects.ProjectsDataSource

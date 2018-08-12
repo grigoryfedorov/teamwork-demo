@@ -1,8 +1,11 @@
-package com.grigoryfedorov.teamwork.ui.projectslist
+package com.grigoryfedorov.teamwork.ui.projects.projectslist
 
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.interactor.projects.ProjectsInteractor
+import com.grigoryfedorov.teamwork.routing.Router
+import com.grigoryfedorov.teamwork.routing.Screen
+import com.grigoryfedorov.teamwork.services.projects.ProjectIdHolder
 import com.grigoryfedorov.teamwork.services.resources.ResourceManager
 import com.grigoryfedorov.teamwork.ui.BasePresenter
 import io.reactivex.Scheduler
@@ -12,8 +15,10 @@ import javax.inject.Named
 class ProjectsListPresenterImpl @Inject constructor(
         private val view: ProjectsListPresenter.View,
         private val projectsInteractor: ProjectsInteractor,
+        private val projectIdHolder: ProjectIdHolder,
         private val projects: MutableList<Project>,
         private val resourceManager: ResourceManager,
+        private val router: Router,
         @Named(SUBSCRIBE_ON_SCHEDULER)
         private val subscribeScheduler: Scheduler,
         @Named(OBSERVE_ON_SCHEDULER)
@@ -45,7 +50,8 @@ class ProjectsListPresenterImpl @Inject constructor(
     }
 
     override fun onProjectClick(position: Int) {
-        view.navigateToProjectTasks(projects[position].id)
+        projectIdHolder.selectedProjectId = projects[position].id
+        router.navigateTo(Screen.PROJECT_TASK_LIST)
     }
 
 }

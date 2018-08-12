@@ -1,8 +1,9 @@
-package com.grigoryfedorov.teamwork.ui.projecttasklist
+package com.grigoryfedorov.teamwork.ui.projects.projecttasklist
 
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.interactor.tasks.TasksInteractor
+import com.grigoryfedorov.teamwork.services.projects.ProjectIdHolder
 import com.grigoryfedorov.teamwork.services.resources.ResourceManager
 import com.grigoryfedorov.teamwork.ui.BasePresenter
 import io.reactivex.Scheduler
@@ -12,7 +13,7 @@ import javax.inject.Named
 class ProjectTaskListPresenterImpl @Inject constructor(
         private val view: ProjectTaskListPresenter.View,
         private val tasksInteractor: TasksInteractor,
-        private val projectId: String,
+        private val projectIdHolder: ProjectIdHolder,
         private val tasks: MutableList<Task>,
         private val resourceManager: ResourceManager,
         @Named(SUBSCRIBE_ON_SCHEDULER)
@@ -24,7 +25,7 @@ class ProjectTaskListPresenterImpl @Inject constructor(
     override fun onStart() {
         view.showProgress()
 
-        tasksInteractor.getTasksForProject(projectId)
+        tasksInteractor.getTasksForProject(projectIdHolder.selectedProjectId)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
                 .subscribe(object : BaseSubscriber<List<Task>>() {

@@ -1,4 +1,4 @@
-package com.grigoryfedorov.teamwork.ui.projectslist
+package com.grigoryfedorov.teamwork.ui.projects.projectslist
 
 import com.grigoryfedorov.teamwork.ui.Presenter
 
@@ -9,7 +9,6 @@ interface ProjectsListPresenter : Presenter {
         fun hideError()
         fun showProgress()
         fun hideProgress()
-        fun navigateToProjectTasks(projectId: String)
     }
 
     fun onProjectClick(position: Int)

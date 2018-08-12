@@ -1,11 +1,11 @@
-package com.grigoryfedorov.teamwork.di.ui.projectlist
+package com.grigoryfedorov.teamwork.di.ui.projects.projectlist
 
 import com.grigoryfedorov.teamwork.domain.Project
-import com.grigoryfedorov.teamwork.ui.projectslist.ProjectsListPresenter
-import com.grigoryfedorov.teamwork.ui.projectslist.ProjectsListPresenterImpl
+import com.grigoryfedorov.teamwork.ui.projects.projectslist.ProjectsListPresenter
+import com.grigoryfedorov.teamwork.ui.projects.projectslist.ProjectsListPresenterImpl
 import toothpick.config.Module
 
-class ProjectsListActivityModule(
+class ProjectsListModule(
         view: ProjectsListPresenter.View,
         projects: MutableList<Project>
 ) : Module() {
