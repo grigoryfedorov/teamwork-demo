@@ -13,7 +13,8 @@ class ProjectsEntityMapper @Inject constructor() : Mapper<List<ApiProject>, List
         for (apiProject in srcModel) {
             projects.add(Project(
                     id = apiProject.id,
-                    name = apiProject.name)
+                    name = apiProject.name,
+                    logo = apiProject.logo)
             )
         }
 

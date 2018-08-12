@@ -44,9 +44,9 @@ class ProjectsListActivity : AppCompatActivity(), ProjectsListPresenter.View {
         progressBar = findViewById(R.id.projects_list_progress_bar)
         errorTextView = findViewById(R.id.projects_list_error_text_view)
 
-        recyclerView = findViewById(R.id.projects_list_recycler_view)
+        recyclerView = this.findViewById(R.id.projects_list_recycler_view)
 
-        projectsListAdapter = ProjectsListAdapter(projects, object : ProjectsListAdapter.Listener {
+        projectsListAdapter = ProjectsListAdapter(this, projects, object : ProjectsListAdapter.Listener {
             override fun onProjectClick(position: Int) {
                 presenter.onProjectClick(position)
             }

@@ -1,6 +1,7 @@
 package com.grigoryfedorov.teamwork
 
 import android.app.Application
+import android.support.v7.app.AppCompatDelegate
 import com.grigoryfedorov.teamwork.di.network.AppModule
 import toothpick.Scope
 import toothpick.Toothpick
@@ -8,7 +9,7 @@ import toothpick.configuration.Configuration
 import toothpick.registries.FactoryRegistryLocator
 import toothpick.registries.MemberInjectorRegistryLocator
 
-class TeamWorkApplication : Application() {
+class TeamworkApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -23,9 +24,11 @@ class TeamWorkApplication : Application() {
 
         val appScope = Toothpick.openScope(this)
         initToothpick(appScope)
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    fun initToothpick(appScope: Scope) {
+    private fun initToothpick(appScope: Scope) {
         appScope.installModules(AppModule(this))
     }
 }
