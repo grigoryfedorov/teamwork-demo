@@ -47,7 +47,7 @@ class ProjectsListPresenterImplTest {
 
     @Test
     fun shouldUpdateAndShowProjectsOnStartGetProjectsSucceeded() {
-        val testProjects = listOf(Project("1", "one"), Project("2", "two"))
+        val testProjects = listOf(Project("1", "one", "logo url"), Project("2", "two", "logo url 2"))
 
         `when`(projectsInteractor.getProjects()).thenReturn(Observable.just(testProjects))
 
