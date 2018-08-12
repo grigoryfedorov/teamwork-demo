@@ -5,8 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.projects.projecttasklist.ProjectTaskListFragment">
 
+    <include layout="@layout/toolbar" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/projects_task_list_recycler_view"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
