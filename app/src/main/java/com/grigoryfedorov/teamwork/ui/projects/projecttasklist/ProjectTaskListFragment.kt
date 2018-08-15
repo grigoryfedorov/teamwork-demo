@@ -29,13 +29,11 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
     private lateinit var progressBar: ProgressBar
     private lateinit var errorTextView: TextView
 
-    private val tasks: MutableList<Task> = ArrayList()
-
     lateinit var scope: Scope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         scope = Toothpick.openScopes(AppScope::class.java, ProjectsScope::class.java, ProjectTaskListFragment::class.java)
-        scope.installModules(ProjectTaskListActivityModule(this, tasks))
+        scope.installModules(ProjectTaskListActivityModule(this))
         super.onCreate(savedInstanceState)
         Toothpick.inject(this, scope)
     }
@@ -48,7 +46,7 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
 
         recyclerView = rootView.findViewById(R.id.projects_task_list_recycler_view)
 
-        projectsListAdapter = ProjectTaskListAdapter(tasks)
+        projectsListAdapter = ProjectTaskListAdapter()
         recyclerView.adapter = projectsListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -88,8 +86,8 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
         progressBar.visibility = View.GONE
     }
 
-    override fun showTasks() {
-        projectsListAdapter.notifyDataSetChanged()
+    override fun showTasks(newTasks: List<Task>) {
+        projectsListAdapter.updateTasks(newTasks)
     }
 
     override fun onDestroy() {
