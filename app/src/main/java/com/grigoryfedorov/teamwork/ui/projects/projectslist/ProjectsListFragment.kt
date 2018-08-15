@@ -31,11 +31,9 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
 
     lateinit var scope: Scope
 
-    private val projects: MutableList<Project> = ArrayList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         scope = Toothpick.openScopes(AppScope::class.java, ProjectsScope::class.java, ProjectsListFragment::class.java)
-        scope.installModules(ProjectsListModule(this, projects))
+        scope.installModules(ProjectsListModule(this))
 
         super.onCreate(savedInstanceState)
 
@@ -50,7 +48,7 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
 
         recyclerView = rootView.findViewById(R.id.projects_list_recycler_view)
 
-        projectsListAdapter = ProjectsListAdapter(context!!, projects, object : ProjectsListAdapter.Listener {
+        projectsListAdapter = ProjectsListAdapter(context!!, object : ProjectsListAdapter.Listener {
             override fun onProjectClick(position: Int) {
                 presenter.onProjectClick(position)
             }
@@ -83,8 +81,8 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
         super.onDestroy()
     }
 
-    override fun showProjects() {
-        projectsListAdapter.notifyDataSetChanged()
+    override fun showProjects(newProjects: List<Project>) {
+        projectsListAdapter.updateProjects(newProjects)
     }
 
     override fun showError(message: String) {

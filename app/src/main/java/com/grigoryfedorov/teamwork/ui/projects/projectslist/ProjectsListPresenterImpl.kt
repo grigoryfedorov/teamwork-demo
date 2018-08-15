@@ -16,7 +16,6 @@ class ProjectsListPresenterImpl @Inject constructor(
         private val view: ProjectsListPresenter.View,
         private val projectsInteractor: ProjectsInteractor,
         private val projectIdHolder: ProjectIdHolder,
-        private val projects: MutableList<Project>,
         private val resourceManager: ResourceManager,
         private val router: Router,
         @Named(SUBSCRIBE_ON_SCHEDULER)
@@ -24,6 +23,8 @@ class ProjectsListPresenterImpl @Inject constructor(
         @Named(OBSERVE_ON_SCHEDULER)
         private val observeScheduler: Scheduler
 ) : BasePresenter(), ProjectsListPresenter {
+
+    var projects: List<Project> = emptyList()
 
     override fun onStart() {
         view.showTitle(resourceManager.getString(R.string.projects_list_title))
@@ -34,12 +35,10 @@ class ProjectsListPresenterImpl @Inject constructor(
                 .subscribe(object : BaseSubscriber<List<Project>>() {
 
                     override fun onNext(newProjects: List<Project>) {
-                        projects.clear()
-                        projects.addAll(newProjects)
-
+                        projects = newProjects
                         view.hideProgress()
                         view.hideError()
-                        view.showProjects()
+                        view.showProjects(newProjects)
                     }
 
                     override fun onError(error: Throwable) {
