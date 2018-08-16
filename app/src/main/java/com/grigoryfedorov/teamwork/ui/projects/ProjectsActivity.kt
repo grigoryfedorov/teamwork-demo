@@ -54,6 +54,10 @@ class ProjectsActivity : AppCompatActivity() {
     }
 
     inner class ProjectsNavigator : Navigator {
+        override fun back() {
+            supportFragmentManager.popBackStack()
+        }
+
         override fun navigateTo(screen: Screen) {
             var fragment = supportFragmentManager.findFragmentByTag(screen.tag)
             if (fragment == null) {
@@ -63,6 +67,7 @@ class ProjectsActivity : AppCompatActivity() {
             if (fragment != null) {
                 val transaction = supportFragmentManager.beginTransaction()
                         .replace(R.id.projects_container, fragment)
+
                 if (needAddToBackStack(screen)) {
                     transaction.addToBackStack(screen.tag)
                 }

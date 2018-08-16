@@ -3,6 +3,7 @@ package com.grigoryfedorov.teamwork.ui.projects.projecttasklist
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.interactor.tasks.TasksInteractor
+import com.grigoryfedorov.teamwork.routing.Router
 import com.grigoryfedorov.teamwork.services.projects.ProjectIdHolder
 import com.grigoryfedorov.teamwork.services.resources.ResourceManager
 import com.grigoryfedorov.teamwork.ui.BasePresenter
@@ -15,6 +16,7 @@ class ProjectTaskListPresenterImpl @Inject constructor(
         private val tasksInteractor: TasksInteractor,
         private val projectIdHolder: ProjectIdHolder,
         private val resourceManager: ResourceManager,
+        private val router: Router,
         @Named(SUBSCRIBE_ON_SCHEDULER)
         private val subscribeOnScheduler: Scheduler,
         @Named(OBSERVE_ON_SCHEDULER)
@@ -24,7 +26,7 @@ class ProjectTaskListPresenterImpl @Inject constructor(
     override fun onStart() {
         val selectedProject = projectIdHolder.selectedProject
 
-        view.showTitle(selectedProject.name)
+        view.showTitle(selectedProject)
         view.showProgress()
 
         tasksInteractor.getTasksForProject(selectedProject.id)
@@ -42,6 +44,10 @@ class ProjectTaskListPresenterImpl @Inject constructor(
                         view.showError(resourceManager.getString(R.string.general_error_message))
                     }
                 })
+    }
+
+    override fun onBackClick() {
+        router.back()
     }
 }
 

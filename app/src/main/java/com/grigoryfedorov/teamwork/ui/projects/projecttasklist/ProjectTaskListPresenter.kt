@@ -1,5 +1,6 @@
 package com.grigoryfedorov.teamwork.ui.projects.projecttasklist
 
+import com.grigoryfedorov.teamwork.domain.Project
 import com.grigoryfedorov.teamwork.domain.Task
 import com.grigoryfedorov.teamwork.ui.Presenter
 
@@ -10,8 +11,9 @@ interface ProjectTaskListPresenter : Presenter {
         fun hideError()
         fun showProgress()
         fun hideProgress()
-        fun showTitle(title: String)
-
+        fun showTitle(project: Project)
     }
+
+    fun onBackClick()
 
 }

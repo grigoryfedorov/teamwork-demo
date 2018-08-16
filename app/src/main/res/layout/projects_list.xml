@@ -5,7 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.projects.projectslist.ProjectsListFragment">
 
-    <include layout="@layout/toolbar" />
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:showIn="@layout/project_task_list">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/projects_list_recycler_view"

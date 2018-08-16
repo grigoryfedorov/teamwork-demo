@@ -19,4 +19,8 @@ class Router @Inject constructor() {
     fun navigateTo(screen: Screen) {
         navigator?.navigateTo(screen)
     }
+
+    fun back() {
+        navigator?.back()
+    }
 }

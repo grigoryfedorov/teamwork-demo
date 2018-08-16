@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.grigoryfedorov.teamwork.GlideApp
 import com.grigoryfedorov.teamwork.R
 import com.grigoryfedorov.teamwork.domain.Project
@@ -34,7 +35,8 @@ class ProjectsListAdapter(
         GlideApp.with(viewHolder.itemView)
                 .load(project.logo)
                 .placeholder(placeholder)
-                .fallback(placeholder)
+                .error(placeholder)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .circleCrop()
                 .into(viewHolder.logo)
 
