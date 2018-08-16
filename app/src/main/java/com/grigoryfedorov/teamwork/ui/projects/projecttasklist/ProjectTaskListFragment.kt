@@ -1,12 +1,14 @@
 package com.grigoryfedorov.teamwork.ui.projects.projecttasklist
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +50,7 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
         scope.installModules(ProjectTaskListActivityModule(this))
         super.onCreate(savedInstanceState)
         Toothpick.inject(this, scope)
+        prepareSharedElementTransition()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -122,6 +125,12 @@ class ProjectTaskListFragment : Fragment(), ProjectTaskListPresenter.View {
     override fun onDestroy() {
         Toothpick.closeScope(ProjectTaskListFragment::class.java)
         super.onDestroy()
+    }
+
+    private fun prepareSharedElementTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        }
     }
 
 }

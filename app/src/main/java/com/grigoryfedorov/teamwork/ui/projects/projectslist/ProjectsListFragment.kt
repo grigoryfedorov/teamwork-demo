@@ -1,9 +1,11 @@
 package com.grigoryfedorov.teamwork.ui.projects.projectslist
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +33,16 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
 
     lateinit var scope: Scope
 
+    var selectedPosition: Int = RecyclerView.NO_POSITION
+
+    fun getSelectedItem(): View? {
+        return if (selectedPosition != RecyclerView.NO_POSITION) {
+            recyclerView.findViewHolderForAdapterPosition(selectedPosition)?.itemView
+        } else {
+            null
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         scope = Toothpick.openScopes(AppScope::class.java, ProjectsScope::class.java, ProjectsListFragment::class.java)
         scope.installModules(ProjectsListModule(this))
@@ -38,6 +50,8 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
         super.onCreate(savedInstanceState)
 
         Toothpick.inject(this, scope)
+
+        prepareTransitions()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,6 +64,7 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
 
         projectsListAdapter = ProjectsListAdapter(context!!, object : ProjectsListAdapter.Listener {
             override fun onProjectClick(position: Int) {
+                selectedPosition = position
                 presenter.onProjectClick(position)
             }
 
@@ -100,6 +115,12 @@ class ProjectsListFragment : Fragment(), ProjectsListPresenter.View {
 
     override fun hideProgress() {
         progressBar.visibility = View.GONE
+    }
+
+    private fun prepareTransitions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            exitTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.fade)
+        }
     }
 
 }

@@ -18,9 +18,11 @@
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:fitsSystemWindows="true"
+        android:transitionName="@string/project_transition_name"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout

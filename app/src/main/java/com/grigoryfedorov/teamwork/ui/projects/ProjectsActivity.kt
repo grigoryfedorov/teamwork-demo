@@ -1,5 +1,6 @@
 package com.grigoryfedorov.teamwork.ui.projects
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -71,6 +72,20 @@ class ProjectsActivity : AppCompatActivity() {
                 if (needAddToBackStack(screen)) {
                     transaction.addToBackStack(screen.tag)
                 }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    val findFragmentById = supportFragmentManager.findFragmentById(R.id.projects_container)
+                    if (findFragmentById is ProjectsListFragment && fragment is ProjectTaskListFragment) {
+                        val selectedItem = findFragmentById.getSelectedItem()
+                        if (selectedItem != null) {
+                            selectedItem.transitionName = getString(R.string.project_transition_name)
+                            transaction.addSharedElement(selectedItem, selectedItem.transitionName)
+                        }
+                    }
+                }
+
+
                 transaction.commit()
             }
 

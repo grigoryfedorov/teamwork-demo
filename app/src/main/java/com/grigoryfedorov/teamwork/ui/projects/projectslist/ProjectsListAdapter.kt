@@ -2,6 +2,7 @@ package com.grigoryfedorov.teamwork.ui.projects.projectslist
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -41,6 +42,10 @@ class ProjectsListAdapter(
                 .into(viewHolder.logo)
 
         viewHolder.itemView.setOnClickListener { listener.onProjectClick(position) }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.itemView.transitionName = null
+        }
     }
 
     override fun getItemCount(): Int = projects.size
